@@ -21,8 +21,8 @@ export default class Student extends React.Component {
 
       chatlog: [{
         user: '',
-        timestamp: '',
-        message: ''
+        message: '',
+        timestamp: ''
       }]
     }
   }
@@ -78,7 +78,9 @@ export default class Student extends React.Component {
             onLast={this.handleLast} />
         </AltContainer>
         <ChatBox 
-        Chat = {['Sam','bla bla','7:30:3'], ['Leo', 'whateve', '12:38:344'
+        Chat = {[
+          {user:'Sam', message:'bla bla', timestamp:'7:30:3'},
+          {user:'Leo', message:'whateve', timestamp:'12:38:344'}
         ]}
         onSend = {this.handleMessage}
         />
@@ -89,6 +91,15 @@ export default class Student extends React.Component {
   handleMessage = (message) => {
     //SlideStore.send('chat', {user:this.state.user, message:message});
     console.log(message);
+    /*
+    this.setState({
+      chatlog: [{
+        user:user,
+        timestamp:Date.now(),
+        message:message
+      }]
+    })
+    */
   }
 
   handleAnswer = (choice, index) => {
