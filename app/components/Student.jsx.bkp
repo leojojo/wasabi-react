@@ -7,18 +7,10 @@ import SlideActions from '../actions/SlideActions';
 import SlideStore from '../stores/SlideStore';
 import SlideShow from './SlideShow.jsx';
 
-//import Quiz from './Quiz.jsx';
-import Chat from './Chat.jsx';
-
 export default class Student extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      quizRetries: 0,
-      lastAnswer: null,
-      lastCorrect: false
-    }
   }
   componentDidMount() {
     var loggedInUser = UserStore.getState().loggedInUser;
@@ -29,12 +21,6 @@ export default class Student extends React.Component {
 
     SlideActions.subSlide({slideDeckId:this.props.params.deckId, user: loggedInUser});
     console.log('componentDidMount', this.state, SlideStore.getState());
-
-    this.setState({
-      quizRetries: 0,
-      lastAnswer: null,
-      lastCorrect: false
-    });
   }
   componentWillUnmount() {
     SlideActions.unsubSlide(this.props.params.deckId);
@@ -44,21 +30,7 @@ export default class Student extends React.Component {
     this.setState(state);
   }
   render() {
-/*    var QuizResult;
-
-    if (this.state.quizRetries > 0) {
-      if (this.state.lastCorrect === true) {
-        QuizResult = <div>CORRECT ANSWER!</div>
-      } else {
-        QuizResult = <div>WRONG ANSWER, try again</div>
-      }
-    }
-        <Quiz quizText={'What is the result of 1 + 2?'} quizChoices={['1', '2', '3', '4']}
-          quizHandleAnswer={this.handleAnswer}
-        />
-        {QuizResult}
-    */
-    return (  
+    return (
       <div className="row">
         <AltContainer
           stores={{slides: SlideStore}}
@@ -69,52 +41,31 @@ export default class Student extends React.Component {
             onNext={this.handleNext}
             onLast={this.handleLast} />
         </AltContainer>
-        <Chat username={this.state.user} onSend={this.handleMessage} 
-        />
       </div>
     );
   }
-
-  handleMessage = (message) => {
-    //SlideStore.send('chat', {user:this.state.user, message:message});
-    console.log(message);
-  }
-
-  handleAnswer = (choice, index) => {
-    var answerCorrect = false;
-    if (index === 2) {
-      answerCorrect = true;
-    }
-    // console.log('answer', choice, answerCorrect);
-    this.setState({
-      quizRetries: ++this.state.quizRetries,
-      lastAnswer: choice,
-      lastCorrect: answerCorrect
-    });
-  }
-
   handleFirst = (event) => {
     if (this.state.slideNoLocal > 0 ) {
       SlideActions.changeSlideLocal({slideNoLocal: 0});
-      // console.log('handleFirst', this.state);
+      console.log('handleFirst', this.state);
     }
   }
   handlePrev = (event) => {
     if (this.state.slideNoLocal > 0) {
       SlideActions.changeSlideLocal({slideNoLocal: this.state.slideNoLocal -1});
-      // console.log('handlePrev', this.state);
+      console.log('handlePrev', this.state);
     }
   }
   handleNext = (event) => {
     if (this.state.slideNoLocal < this.state.slideDeckLength - 1) {
       SlideActions.changeSlideLocal({slideNoLocal: this.state.slideNoLocal + 1});
-      // console.log('handleNext', this.state);
+      console.log('handleNext', this.state);
     }
   }
   handleLast = (event) => {
      if (this.state.slideNoLocal < this.state.slideDeckLength - 1 ) {
       SlideActions.changeSlideLocal({slideNoLocal: this.state.slideDeckLength - 1});
-      // console.log('handleLast', this.state);
+      console.log('handleLast', this.state);
     }
   }
 }
