@@ -8,7 +8,7 @@ import SlideStore from '../stores/SlideStore';
 import SlideShow from './SlideShow.jsx';
 
 //import Quiz from './Quiz.jsx';
-import Chat from './Chat.jsx';
+import ChatBox from './Chat.jsx';
 
 export default class Student extends React.Component {
   constructor(props) {
@@ -17,14 +17,20 @@ export default class Student extends React.Component {
     this.state = {
       quizRetries: 0,
       lastAnswer: null,
-      lastCorrect: false
+      lastCorrect: false,
+
+      chatlog: [{
+        user: '',
+        timestamp: '',
+        message: ''
+      }]
     }
   }
   componentDidMount() {
     var loggedInUser = UserStore.getState().loggedInUser;
     this.setState({user: loggedInUser});
 
-    this.setState(SlideStore.getState())
+    this.setState(SlideStore.getState());
     SlideStore.listen(this.changeSlideStore);
 
     SlideActions.subSlide({slideDeckId:this.props.params.deckId, user: loggedInUser});
@@ -33,7 +39,9 @@ export default class Student extends React.Component {
     this.setState({
       quizRetries: 0,
       lastAnswer: null,
-      lastCorrect: false
+      lastCorrect: false,
+
+      chatlog: [{}]
     });
   }
   componentWillUnmount() {
@@ -69,7 +77,10 @@ export default class Student extends React.Component {
             onNext={this.handleNext}
             onLast={this.handleLast} />
         </AltContainer>
-        <Chat username={this.state.user} onSend={this.handleMessage} 
+        <ChatBox 
+        Chat = {['Sam','bla bla','7:30:3'], ['Leo', 'whateve', '12:38:344'
+        ]}
+        onSend = {this.handleMessage}
         />
       </div>
     );
